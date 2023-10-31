@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Arduino Controller</title>
+</head>
+<body>
+
+<h1>Arduino Controller</h1>
+
+<div>
+  <label for="s1">S1:</label>
+  <input type="range" id="s1" name="s1" min="-1000" max="1000">
+  <span id="s1-value">0</span>
+</div>
+
+<div>
+  <label for="s2">S2:</label>
+  <input type="range" id="s2" name="s2" min="-1000" max="1000">
+  <span id="s2-value">0</span>
+</div>
+
+<button id="send-button">Send</button>
+
+<script>
+  // Get slider elements
+  const s1Slider = document.getElementById("s1");
+  const s2Slider = document.getElementById("s2");
+
+  // Get display elements
+  const s1Value = document.getElementById("s1-value");
+  const s2Value = document.getElementById("s2-value");
+
+  // Update display elements when sliders change
+  s1Slider.addEventListener("input", () => {
+    s1Value.textContent = s1Slider.value;
+  });
+
+  s2Slider.addEventListener("input", () => {
+    s2Value.textContent = s2Slider.value;
+  });
+
+  // Function to send GET request
+  const sendValues = () => {
+    const s1 = s1Slider.value;
+    const s2 = s2Slider.value;
+    const url = `http://localhost:8888/arduino?s1=${s1}&s2=${s2}`;
+    
+    fetch(url)
+      .then(response => response.text())
+      .then(data => console.log(`Received: ${data}`))
+      .catch(error => console.error(`Error: ${error}`));
+  };
+
+  // Attach function to button
+  document.getElementById("send-button").addEventListener("click", sendValues);
+</script>
+
+</body>
+</html>
