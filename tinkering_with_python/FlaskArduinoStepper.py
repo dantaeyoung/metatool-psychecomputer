@@ -5,10 +5,17 @@ import time
 app = Flask(__name__)
 
 # Open serial port
-ser = serial.Serial('/dev/tty.usbmodem1201', 115200)
+ser = serial.Serial('/dev/tty.usbmodem101', 115200)
 time.sleep(2)  # Give some time for the connection to establish
 
 # example url: http://localhost:8888/arduino?s1=300&s2=500
+
+
+
+
+@app.route('/bellui', methods=['POST', 'GET'])
+def bellui():
+    return render_template('stepperui.html')
 
 @app.route('/arduino', methods=['GET'])
 def arduino_command():
