@@ -3,14 +3,16 @@
 import subprocess
 from flask import Flask, render_template, request, jsonify
 from pygame import mixer
+import webbrowser
 import time
 
 app = Flask(__name__)
 
 mixer.init()
 
+
 def open_arena():
-    ## code here
+    webbrowser.open('https://www.are.na/', new=2)
 
 @app.route('/open', methods=['GET'])
 def open():

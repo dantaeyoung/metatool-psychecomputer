@@ -12,3 +12,4 @@ def play_bell():
     time.sleep(2)
 
 play_bell()
+#play_bell()
