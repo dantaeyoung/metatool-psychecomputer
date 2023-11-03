@@ -15,13 +15,10 @@ def open_arena():
     webbrowser.open('https://www.are.na/', new=2)
 
 @app.route('/open', methods=['GET'])
-def open():
+def open_arena():
     open_arena()
     return ("opening arena!")
 
-@app.route('/bellui', methods=['POST', 'GET'])
-def bellui():
-    return render_template('bellui.html')
 
 
 @app.route('/', methods=['POST', 'GET'])

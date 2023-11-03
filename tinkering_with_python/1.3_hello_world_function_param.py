@@ -1,4 +1,3 @@
 def hello_world(name):
-    print("hello world! my name is " + name)
+    print("hello " + name)
 
-hello_world("dan")

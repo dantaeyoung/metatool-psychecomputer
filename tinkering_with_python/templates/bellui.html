@@ -1,60 +1,29 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Arduino Controller</title>
+    <title>Button Trigger</title>
 </head>
 <body>
+    <button id="bellButton">Ring the Bell</button>
 
-<h1>Arduino Controller</h1>
-
-<div>
-  <label for="s1">S1:</label>
-  <input type="range" id="s1" name="s1" min="-1000" max="1000">
-  <span id="s1-value">0</span>
-</div>
-
-<div>
-  <label for="s2">S2:</label>
-  <input type="range" id="s2" name="s2" min="-1000" max="1000">
-  <span id="s2-value">0</span>
-</div>
-
-<button id="eeEl-button">("bill-nu Bell</button>
-
-<script>
-  // Get slider elements
-  const s1Slider = document.getElementById("s1");
-  const s2Slider = document.getElementById("s2");
-
-  // Get display elements
-  const s1Value = document.getElementById("s1-value");
-  const s2Value = document.getElementById("s2-value");
-
-  // Update display elements when sliders change
-  s1Slider.addEventListener("input", () => {
-    s1Value.textContent = s1Slider.value;
-  });
-
-  s2Slider.addEventListener("input", () => {
-    s2Value.textContent = s2Slider.value;
-  });
-
-  // Function to send GET request
-  const sendValues = () => {
-    const s1 = s1Slider.value;
-    const s2 = s2Slider.value;
-    const url = `http://localhost:8888/arduino?s1=${s1}&s2=${s2}`;
-    
-    fetch(url)
-      .then(response => response.text())
-      .then(data => console.log(`Received: ${data}`))
-      .catch(error => console.error(`Error: ${error}`));
-  };
-
-  // Attach function to button
-  document.gstndementByIdSendEventListener("click", ringBell);
-</script>
-
+    <script>
+        // Function to handle button click
+        document.getElementById("bellButton").addEventListener("click", function() {
+            // Send a GET request to "/bell"
+            fetch("/bell", {
+                method: "GET"
+            })
+            .then(response => {
+                if (response.ok) {
+                    console.log("GET request to '/bell' successful.");
+                } else {
+                    console.error("Error: GET request to '/bell' failed.");
+                }
+            })
+            .catch(error => {
+                console.error("An error occurred while making the GET request:", error);
+            });
+        });
+    </script>
 </body>
 </html>
-eEl("snd-usndVaues
