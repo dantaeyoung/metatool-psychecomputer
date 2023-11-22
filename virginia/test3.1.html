@@ -1,0 +1,114 @@
+<html>
+  <head>
+<style>
+#diaryentry {
+  border: 1px solid blue;
+  padding: 10px;
+
+}
+</style>
+  </head>
+  <body>
+  <h1> test 3.1 - json response </h1>
+  URL of image to be described by GPT 4
+  <input id="query" />
+  <button id="submitquery" >submit</button>
+  <div id="result"></div>
+  <div id="diaryentry"></div>
+
+  </body>
+  <script>
+
+    //var YOUR_TOKEN = "sk-ABCDE@#API KEY GOES HERE"
+
+    function OpenaiFetchAPI(imgurl) {
+
+      console.log("Calling GPT4")
+      console.log("imgurl = " + imgurl)
+      var url = "https://api.openai.com/v1/chat/completions";
+      var bearer = 'Bearer ' + YOUR_TOKEN
+      fetch(url, {
+          method: 'POST',
+          headers: {
+              'Authorization': bearer,
+              'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+           "model": "gpt-4-vision-preview",
+            "messages": [
+            {
+              "role": "user",
+              "content": [
+                {
+                  "type": "text",
+                  "text": `Please analyze this image according to the following questions. Please return the output of each question as a json object and ONLY JSON and nothing else. 
+            - 'brightness': Is this room bright or dark? 
+            - 'plantsorbooks': Does this have more plants or books?
+            - 'diaryentry': (please write a diary entry from the perspective of a 10 year old kid in this image)
+            `
+                },
+                {
+                  "type": "image_url",
+                  "image_url": {
+                    "url": imgurl,
+                  }
+                }
+              ]
+            }
+          ],
+          "max_tokens": 300,
+          })
+
+
+      }).then(response => {
+          
+          return response.json()
+         
+      }).then(data=>{
+          console.log(data)
+          console.log(typeof data)
+          console.log(Object.keys(data))
+
+          var result = data['choices'][0]['message']['content']
+          console.log(JSON.parse(result))
+         document.getElementById("result").innerHTML = result
+
+          processJsonResult(JSON.parse(result))
+          
+          
+      })
+      .catch(error => {
+          console.log('Something bad happened ' + error)
+      });
+
+    }
+
+    function processJsonResult(jsonresult) {
+
+      console.log(jsonresult)
+
+      document.getElementById("diaryentry").innerHTML = jsonresult['diaryentry']
+
+      if(jsonresult['brightness'] === "bright") {
+        document.getElementById("diaryentry").style.backgroundColor="yellow";
+      } else {
+        document.getElementById("diaryentry").style.backgroundColor="lightblue";
+      }
+
+        
+
+
+    }
+
+
+    var btn = document.getElementById('submitquery');
+    btn.addEventListener('click', func);
+
+    function func() {
+      var query = document.getElementById("query").value
+      OpenaiFetchAPI(query);
+    }
+
+
+  </script>
+</html>
